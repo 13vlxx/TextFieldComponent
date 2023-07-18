@@ -8,15 +8,35 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var email: String = ""
+    @State private var password: String = ""
+    @State private var isValid:Bool = false
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        Form {
+            Section {
+                TextField("Adresse e-mail", text: $email)
+                SecureField("Mot de passe", text: $password) {
+                    isPasswordValid()
+                }
+                
+                if !isValid {
+                    Text("Mot de passe doit contenir au moins 8 caractères")
+                        .foregroundColor(.red)
+                }
+            }
         }
-        .padding()
     }
+    
+    func isPasswordValid() {
+        if self.password.count >= 8 {
+            self.isValid = true
+        } else {
+            isValid = false
+        }
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
